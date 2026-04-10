@@ -1,3 +1,33 @@
+class Quiz:
+    def __init__(self, question: str, choices: list, answer: int):
+        self.question = question
+        self.choices = choices
+        self.answer = answer
+
+    def display(self, index: int):
+        print(f"\n----------------------------------------")
+        print(f"[문제 {index}]")
+        print(f"{self.question}\n")
+        for i, choice in enumerate(self.choices, 1):
+            print(f"  {i}. {choice}")
+
+    def check_answer(self, user_answer: int):
+        return user_answer == self.answer
+
+    def to_dict(self) -> dict:
+        return {
+            "question": self.question,
+            "choices": self.choices,
+            "answer": self.answer
+        }
+
+    def quiz_from_dict(data: dict):
+        return Quiz(
+            question=data["question"],
+            choices=data["choices"],
+            answer=data["answer"]
+        )
+    
 class QuizGame:
     def show_menu(self):
         print("\n========================================")
@@ -19,7 +49,6 @@ class QuizGame:
             if not user_input:
                 print("  입력이 비어 있습니다.")
                 continue
-
 
             # 잘못된 입력 예외처리
             try:
