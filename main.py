@@ -1,3 +1,36 @@
+import json
+import os
+
+STATE_FILE = "state.json"
+
+DEFAULT_QUIZZES = [
+    {
+        "question": "영화 '기생충'으로 아카데미 작품상을 수상한 감독은?",
+        "choices": ["박찬욱", "봉준호", "홍상수", "이창동"],
+        "answer": 2
+    },
+    {
+        "question": "드라마 '오징어 게임'에서 참가자들이 받는 총 상금액은?",
+        "choices": ["123억 원", "234억 원", "345억 원", "456억 원"],
+        "answer": 4
+    },
+    {
+        "question": "드라마 '이상한 변호사 우영우'에서 우영우가 좋아하는 동물은?",
+        "choices": ["얼룩말", "고래", "사자", "펭귄"],
+        "answer": 2
+    },
+    {
+        "question": "드라마 '도깨비'에서 도깨비 역할을 맡은 배우는?",
+        "choices": ["이민호", "현빈", "공유", "송중기"],
+        "answer": 3
+    },
+    {
+        "question": "영화 '극한직업'에서 주연을 맡은 배우가 아닌 사람은?",
+        "choices": ["조정석", "이하늬", "류승룡", "진선규"], # 류승룡, 이하늬, 진선규
+        "answer": 1
+    }
+]
+
 class Quiz:
     def __init__(self, question: str, choices: list, answer: int):
         self.question = question
@@ -29,6 +62,9 @@ class Quiz:
         )
     
 class QuizGame:
+    def __init__(self):
+        self.quizzes = [Quiz.from_dict(q) for q in DEFAULT_QUIZZES]
+
     def show_menu(self):
         print("\n========================================")
         print("       🎬 한국 영화·드라마 퀴즈 게임 🎬")
