@@ -20,6 +20,7 @@ class QuizGame:
                 print("  입력이 비어 있습니다.")
                 continue
 
+
             # 잘못된 입력 예외처리
             try:
                 choice = int(user_input)
