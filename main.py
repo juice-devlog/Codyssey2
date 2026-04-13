@@ -46,11 +46,11 @@ class Quiz:
         for i, choice in enumerate(self.choices, 1):
             print(f"  {i}. {choice}")
 
-    def check_answer(self, user_answer: int) -> bool:
+    def check_answer(self, user_answer: int):
         """사용자의 답이 정답인지 확인한다"""
         return user_answer == self.answer
 
-    def to_dict(self) -> dict:
+    def to_dict(self):
         """Quiz 객체를 딕셔너리로 변환한다 (JSON 저장용)"""
         return {
             "question": self.question,
@@ -59,7 +59,7 @@ class Quiz:
         }
 
     @classmethod
-    def from_dict(cls, data: dict) -> "Quiz":
+    def from_dict(cls, data: dict):
         """딕셔너리에서 Quiz 객체를 생성한다 (JSON 불러오기용)"""
         return cls(
             question=data["question"],
@@ -129,7 +129,7 @@ class QuizGame:
 
     # ── 입력 헬퍼 ────────────────────────────────────────────────
 
-    def _input_number(self, prompt: str, min_val: int, max_val: int) -> int:
+    def input_number(self, prompt: str, min_val: int, max_val: int):
         """유효한 범위의 숫자를 입력받을 때까지 반복한다"""
         while True:
             raw = input(prompt).strip()
@@ -146,7 +146,7 @@ class QuizGame:
                 continue
             return value
 
-    def _input_text(self, prompt: str) -> str:
+    def input_text(self, prompt: str):
         """빈 문자열이 아닌 텍스트를 입력받을 때까지 반복한다"""
         while True:
             raw = input(prompt).strip()
@@ -176,15 +176,15 @@ class QuizGame:
             2: self.add_quiz,
             3: self.show_quiz_list,
             4: self.show_best_score,
-            5: self._quit
+            5: self.quit
         }
 
         while True:
             self.show_menu()
-            choice = self._input_number("  선택: ", 1, 5)
+            choice = self.input_number("  선택: ", 1, 5)
             menu_actions[choice]()
 
-    def _quit(self):
+    def quit(self):
         """게임을 종료한다"""
         self.save_state()
         print("\n👋 게임을 종료합니다. 즐거운 시간이었기를 바랍니다!\n")
@@ -205,7 +205,7 @@ class QuizGame:
 
         for i, quiz in enumerate(self.quizzes, 1):
             quiz.display(i)
-            user_ans = self._input_number("\n  정답 입력: ", 1, 4)
+            user_ans = self.input_number("\n  정답 입력: ", 1, 4)
 
             if quiz.check_answer(user_ans):
                 print("  ✅ 정답입니다!")
@@ -233,14 +233,14 @@ class QuizGame:
     def add_quiz(self):
         """새 퀴즈를 등록한다"""
         print("\n📌 새로운 퀴즈를 추가합니다.")
-        question = self._input_text("  문제를 입력하세요: ")
+        question = self.input_text("  문제를 입력하세요: ")
 
         choices = []
         for i in range(1, 5):
-            choice = self._input_text(f"  선택지 {i}: ")
+            choice = self.input_text(f"  선택지 {i}: ")
             choices.append(choice)
 
-        answer = self._input_number("  정답 번호 (1-4): ", 1, 4)
+        answer = self.input_number("  정답 번호 (1-4): ", 1, 4)
 
         new_quiz = Quiz(question, choices, answer)
         self.quizzes.append(new_quiz)
@@ -273,9 +273,6 @@ class QuizGame:
             print(f"  🏆 최고 점수: {self.best_score}점 "
                   f"({self.best_total}문제 중 {self.best_correct}문제 정답)")
         print("========================================")
-
-
-# ── 진입점 ───────────────────────────────────────────────────────
 
 def main():
     game = QuizGame()
