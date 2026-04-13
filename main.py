@@ -98,10 +98,55 @@ class QuizGame:
                 print("  1~5 사이의 숫자를 입력하세요.")
                 continue
 
+            if choice == 1:
+                self.play_quiz
+                continue
+
             # 종료(5)를 선택한 경우
             if choice == 5:
                 print("\n  게임을 종료합니다.\n")
                 break
+
+    def _input_number(self, prompt: str, min_val: int, max_val: int):
+        while True:
+            raw = input(prompt).strip()
+            if not raw:
+                print(f"⚠️  입력이 비어 있습니다. {min_val}~{max_val} 사이의 숫자를 입력하세요.")
+                continue
+            try:
+                value = int(raw)
+            except ValueError:
+                print(f"⚠️  잘못된 입력입니다. {min_val}~{max_val} 사이의 숫자를 입력하세요.")
+                continue
+            if not (min_val <= value <= max_val):
+                print(f"⚠️  잘못된 입력입니다. {min_val}~{max_val} 사이의 숫자를 입력하세요.")
+                continue
+            return value
+
+    def play_quiz(self):
+        if not self.quizzes:
+            print("\n⚠️  등록된 퀴즈가 없습니다. 먼저 퀴즈를 추가해 주세요.")
+            return
+
+        total = len(self.quizzes)
+        correct = 0
+
+        print(f"\n📝 퀴즈를 시작합니다! (총 {total}문제)")
+
+        for i, quiz in enumerate(self.quizzes, 1):
+            quiz.display(i)
+            user_ans = self._input_number("\n  정답 입력: ", 1, 4)
+
+            if quiz.check_answer(user_ans):
+                print("  ✅ 정답입니다!")
+                correct += 1
+            else:
+                print(f"  ❌ 오답입니다. 정답은 {quiz.answer}번이에요.")
+
+        score = round(correct / total * 100)
+        print(f"\n========================================")
+        print(f"  🏆 결과: {total}문제 중 {correct}문제 정답! ({score}점)")
+        print("========================================")
 
 def main():
     game = QuizGame()
