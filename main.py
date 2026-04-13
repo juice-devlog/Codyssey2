@@ -149,6 +149,25 @@ class QuizGame:
         print(f"  🏆 결과: {total}문제 중 {correct}문제 정답! ({score}점)")
         print("========================================")
 
+    def _input_text(self, prompt: str) -> str:
+        while True:
+            raw = input(prompt).strip()
+            if not raw:
+                print("⚠️  입력이 비어 있습니다. 다시 입력해 주세요.")
+                continue
+            return raw
+
+    def add_quiz(self):
+        print("\n📌 새로운 퀴즈를 추가합니다.")
+        question = self._input_text("  문제를 입력하세요: ")
+        choices = []
+        for i in range(1, 5):
+            choice = self._input_text(f"  선택지 {i}: ")
+            choices.append(choice)
+        answer = self._input_number("  정답 번호 (1-4): ", 1, 4)
+        self.quizzes.append(Quiz(question, choices, answer))
+        print("  ✅ 퀴즈가 추가되었습니다!")
+
 def main():
     game = QuizGame()
     try:
