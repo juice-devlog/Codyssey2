@@ -102,6 +102,14 @@ class QuizGame:
                 self.play_quiz
                 continue
 
+            if choice == 2:
+                self.add_quiz
+                continue
+
+            if choice == 3:
+                self.show_quiz_list
+                continue
+
             # 종료(5)를 선택한 경우
             if choice == 5:
                 print("\n  게임을 종료합니다.\n")
@@ -167,6 +175,16 @@ class QuizGame:
         answer = self._input_number("  정답 번호 (1-4): ", 1, 4)
         self.quizzes.append(Quiz(question, choices, answer))
         print("  ✅ 퀴즈가 추가되었습니다!")
+
+    def show_quiz_list(self):
+        if not self.quizzes:
+            print("\n⚠️  등록된 퀴즈가 없습니다.")
+            return
+        print(f"\n📋 등록된 퀴즈 목록 (총 {len(self.quizzes)}개)")
+        print("----------------------------------------")
+        for i, quiz in enumerate(self.quizzes, 1):
+            print(f"  [{i}] {quiz.question}")
+        print("----------------------------------------")
 
 def main():
     game = QuizGame()
