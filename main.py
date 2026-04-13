@@ -144,6 +144,7 @@ class QuizGame:
                 print(f"  ❌ 오답입니다. 정답은 {quiz.answer}번이에요.")
 
         score = round(correct / total * 100)
+        
         print(f"\n========================================")
         print(f"  🏆 결과: {total}문제 중 {correct}문제 정답! ({score}점)")
         print("========================================")
