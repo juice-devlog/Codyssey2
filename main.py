@@ -63,6 +63,9 @@ class Quiz:
     
 class QuizGame:
     def __init__(self):
+        self.best_score = 0
+        self.best_correct = 0
+        self.best_total = 0
         self.quizzes = [Quiz.from_dict(q) for q in DEFAULT_QUIZZES]
 
     def show_menu(self):
@@ -108,6 +111,10 @@ class QuizGame:
 
             if choice == 3:
                 self.show_quiz_list
+                continue
+
+            if choice == 4:
+                self.show_best_score
                 continue
 
             # 종료(5)를 선택한 경우
@@ -185,6 +192,15 @@ class QuizGame:
         for i, quiz in enumerate(self.quizzes, 1):
             print(f"  [{i}] {quiz.question}")
         print("----------------------------------------")
+
+    def show_best_score(self):
+        print("\n========================================")
+        if self.best_score == 0 and self.best_total == 0:
+            print("  🏆 아직 퀴즈를 풀지 않았습니다.")
+        else:
+            print(f"  🏆 최고 점수: {self.best_score}점 "
+                f"({self.best_total}문제 중 {self.best_correct}문제 정답)")
+        print("========================================")
 
 def main():
     game = QuizGame()
